@@ -14,7 +14,7 @@ void go_to_goal(float x, float y, float z, float w, std::string display_message)
   move_base_msgs::MoveBaseGoal goal;
 
   // set up the frame parameters
-  goal.target_pose.header.frame_id = "robot_footprint";
+  goal.target_pose.header.frame_id = "map";
   goal.target_pose.header.stamp = ros::Time::now();
 
   // Define a position and orientation for the robot to reach
@@ -23,10 +23,13 @@ void go_to_goal(float x, float y, float z, float w, std::string display_message)
   // original robot position (x=-0.31, y=-2.76, yaw=-1.5707)
   goal.target_pose.pose.position.x = x;
   goal.target_pose.pose.position.y = y;
+  goal.target_pose.pose.position.z = 0;
   // float yaw = 1.5707;
-  //goal.target_pose.pose.orientation.setEuler(yaw, 0, 0); 
+  //goal.target_pose.pose.orientation.setEuler(yaw, 0, 0);
+  goal.target_pose.pose.orientation.x = 0;
+  goal.target_pose.pose.orientation.y = 0;
+  goal.target_pose.pose.orientation.z = z; 
   goal.target_pose.pose.orientation.w = w;
-  goal.target_pose.pose.orientation.z = z;
 
    // Send the goal position and orientation for the robot to reach
   ROS_INFO("Sending goal: %.2f, %.2f", x, y);
@@ -45,18 +48,21 @@ void go_to_goal(float x, float y, float z, float w, std::string display_message)
 int main(int argc, char** argv){
   // Initialize the simple_navigation_goals node
   ros::init(argc, argv, "pick_objects");
-
   //tell the action client that we want to spin a thread by default
    ac = new MoveBaseClient("move_base", true);
 
+   // ros::Duration(10, 0).sleep();
   // Wait 5 sec for move_base action server to come up
   while(!ac->waitForServer(ros::Duration(5.0))){
     ROS_INFO("Waiting for the move_base action server to come up");
   }
- ros::Duration(2, 0).sleep();
- go_to_goal(-1, -5, 0, 1, "The Robot Reached the first location");
- ros::Duration(1, 0).sleep();
- go_to_goal(-1, -5, 0, 1, "The Robot Reached the second location");
+ // ros::Duration(2, 0).sleep();
+ go_to_goal(-4, -10, 0, 1, "The Robot Reached the first location");
+ //ros::Duration(5, 0).sleep();
+ go_to_goal(-10, 10, 0, 1, "The Robot Reached the second location");
+ go_to_goal(-4, -10, 0, 1, "The Robot Reached the third location");
+ //ros::Duration(5, 0).sleep();
+ go_to_goal(-10, 10, 0, 1, "The Robot Reached the fourth location");
  
  //go_to_goal(4, 4, 0, 1, "The Robot Reached the second location"); 
  ros::Duration(20, 0).sleep();
