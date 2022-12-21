@@ -6,5 +6,5 @@ local_costmap:
    width: 10.0
    height: 10.0
    resolution: 0.05
-   static_map: false
+   static_map: static
    rolling_window: true
