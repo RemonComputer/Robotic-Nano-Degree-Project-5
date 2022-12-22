@@ -13,14 +13,14 @@
 
 
 ## Demos
-|[![Home Delivery](https://img.youtube.com/vi/U_lDX4oRf58/0.jpg)](https://youtu.be/rmFFGfkkE1U)|
+|[![Home Delivery](https://img.youtube.com/vi/rmFFGfkkE1U/0.jpg)](https://youtu.be/rmFFGfkkE1U)|
 |:--:|
 |<b>Video 1: Robot delivering objects demo</b>|
 |:--:|
-|[![Mapping using SLAM](https://img.youtube.com/vi/U_lDX4oRf58/0.jpg)](https://youtu.be/fy5jT41a8Fk)|
+|[![Mapping using SLAM](https://img.youtube.com/vi/fy5jT41a8Fk/0.jpg)](https://youtu.be/fy5jT41a8Fk)|
 |<b>Video 2: Mapping the environment using the SLAM Script</b>|
 |:--:|
-|[![Goal Navigation using RVIZ](https://img.youtube.com/vi/U_lDX4oRf58/0.jpg)](https://youtu.be/GjIxSsRoNbs)|
+|[![Goal Navigation using RVIZ](https://img.youtube.com/vi/GjIxSsRoNbs/0.jpg)](https://youtu.be/GjIxSsRoNbs)|
 |<b>Video 3: Performing Navigation using RVIZ</b>|
 
 ## Building the project
