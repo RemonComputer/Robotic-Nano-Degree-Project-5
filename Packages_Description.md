@@ -43,6 +43,14 @@ A Gazebo plugin used to provide an interface from the custom robot lidar and ROS
 ## slam_gmapping
 - This package provides simultanious localization and mapping within the environment.
 - Using this package we are able to map the environment while traversing it.
+- It uses Grid based FastSLAM Algorithm.
+- It uses an approach called Rao-blackwellized particle filters.
+- It combines particle filters with Occupency grid mapping algorithm.
+- Each particle would have a map associated with it.
+- It consists of:
+  - Sampling motion like particle filter.
+  - Computing each particle map using the occupency grid mapping algorithm.
+  - Computing the weight of each particle according to the measurements.
 
 ## map_server
 - Using this package we are able to save the resulted map from the slam_gmapping in pgm image along with its metadata.
@@ -52,6 +60,17 @@ A Gazebo plugin used to provide an interface from the custom robot lidar and ROS
 - This package provides localization of the robot during its motion within the environment using the a map and sensor readings.
 - It uses adaptive monte-carlo localization.
 - It estimates the odometry with each motion.
+- The adaptive monte-carlo localization is an extended version of the monte-carlo localization but offers a huge computational advantage by adapting the number of particles.
+- The monte-calo localization works by (for each particle):
+  - Getting the previous belief.
+  - Making a motion update using the control parameters and the previous belief.
+  - Assign weights for each particle according to the sensor measurements.
+  - Sample new particles according to each particle weight.
+  - update the belief with the new particles.
+- The occupency grid mapping algorithm is:
+  - dividing the space into a grid.
+  - using the laser beam and the current robot pose update the probability of the cell being empty according to beam measurements.
+  - At the end each cell will be classified according to its probability to be empty, free or unknown.
 
 ## move_base
 - This package works as a navigation stack for the project.
@@ -60,6 +79,8 @@ A Gazebo plugin used to provide an interface from the custom robot lidar and ROS
 - It has a local and global planners, it has global and local planners.
 - It uses the map and the laser sensors to detect objects and plan a path.
 - It used the updated odometry.
+- The package mainly uses the famous Dijekstra algorithm which finds the shortest path from the robot to the goal pose.
+- The package also have some parameters onto the clearance of the robot with the obstacles among others.
 
 ## add_markers
 - This package adds virtual markers to be picked by the robot.
