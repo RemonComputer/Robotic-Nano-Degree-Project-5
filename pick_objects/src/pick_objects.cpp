@@ -58,11 +58,13 @@ int main(int argc, char** argv){
   }
  // ros::Duration(2, 0).sleep();
  go_to_goal(-4, -10, 0, 1, "The Robot Reached the first pickup location");
- //ros::Duration(5, 0).sleep();
+ ros::Duration(5, 0).sleep();
  go_to_goal(-10, 10, 0, 1, "The Robot Reached the delivery location");
+ ros::Duration(5, 0).sleep();
  go_to_goal(-4, -10, 0, 1, "The Robot Reached the second pickup location");
- //ros::Duration(5, 0).sleep();
+ ros::Duration(5, 0).sleep();
  go_to_goal(-10, 10, 0, 1, "The Robot Reached the second delivery location");
+ ros::Duration(5, 0).sleep();
  go_to_goal(-15, 5, 0, 1, "The Robot went to a parking position");
  
  //go_to_goal(4, 4, 0, 1, "The Robot Reached the second location"); 

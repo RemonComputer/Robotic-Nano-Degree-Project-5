@@ -44,9 +44,9 @@ void publish_marker(float x, float y, float z, float r, float g, float b, ros::P
      marker.pose.orientation.w = 1.0;
  
      // Set the scale of the marker -- 1x1x1 here means 1m on a side
-     marker.scale.x = 0.3;
-     marker.scale.y = 0.3;
-     marker.scale.z = 0.3;
+     marker.scale.x = 1.0;
+     marker.scale.y = 1.0;
+     marker.scale.z = 1.0;
  
      // Set the color -- be sure to set alpha to something non-zero!
      marker.color.r = r;
@@ -76,6 +76,7 @@ void odomCallback(const nav_msgs::Odometry::ConstPtr& msg) {
   float delta_y_pickup = abs(y_robot - y_pickup);
   if(delta_x_pickup < epsilon && delta_y_pickup < epsilon) {
     ros::Duration(5, 0).sleep();
+    // Hide the marker when the robot reach the pickup location
     publish_marker(x_pickup, y_pickup, 0, 0.0f, 0.0f, 1.0f, marker_pub, false);
     return;
   }
@@ -83,8 +84,10 @@ void odomCallback(const nav_msgs::Odometry::ConstPtr& msg) {
   float delta_y_deliver = abs(y_robot - y_deliver);
   if (delta_x_deliver < epsilon && delta_y_deliver < epsilon) {
     ros::Duration(5, 0).sleep();
+    // Show the marker at the delivery location when the robot reached it
     publish_marker(x_deliver, y_deliver, 0, 0.0f, 0.0f, 1.0f, marker_pub, true);
-    ros::Duration(10, 0).sleep();
+    ros::Duration(15, 0).sleep();
+    // Show the marker again at the pickup for a next pickup loaction
     publish_marker(x_pickup, y_pickup, 0, 0.0f, 0.0f, 1.0f, marker_pub, true);
     return;    
   }
@@ -97,6 +100,7 @@ int main( int argc, char** argv )
    marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
    ros::Subscriber sub = n.subscribe("odom", 10, odomCallback);
    
+   // Add the marker to thhe pickup location
    publish_marker(x_pickup, y_pickup, 0, 0.0f, 0.0f, 1.0f, marker_pub, true);
    ros::spin();
    return 0;
