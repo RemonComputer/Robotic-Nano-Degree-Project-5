@@ -17,10 +17,10 @@
 |:--:|
 |<b>Video 1: Robot delivering objects demo</b>|
 |:--:|
-|![Mapping using SLAM](https://img.youtube.com/vi/U_lDX4oRf58/0.jpg)](https://youtu.be/fy5jT41a8Fk)|
+|[![Mapping using SLAM](https://img.youtube.com/vi/U_lDX4oRf58/0.jpg)](https://youtu.be/fy5jT41a8Fk)|
 |<b>Video 2: Mapping the environment using the SLAM Script</b>|
 |:--:|
-|![Goal Navigation using RVIZ](https://img.youtube.com/vi/U_lDX4oRf58/0.jpg)](https://youtu.be/GjIxSsRoNbs)|
+|[![Goal Navigation using RVIZ](https://img.youtube.com/vi/U_lDX4oRf58/0.jpg)](https://youtu.be/GjIxSsRoNbs)|
 |<b>Video 3: Performing Navigation using RVIZ</b>|
 
 ## Building the project
