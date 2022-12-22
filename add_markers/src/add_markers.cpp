@@ -1,5 +1,15 @@
 #include <ros/ros.h>
- #include <visualization_msgs/Marker.h>
+#include <visualization_msgs/Marker.h>
+#include <nav_msgs/Odometry.h>
+
+ros::Publisher marker_pub;
+
+float x_pickup = -4;
+float y_pickup = -10;
+float x_deliver = -10;
+float y_deliver = 10;
+
+float epsilon = 0.1;
 
 void publish_marker(float x, float y, float z, float r, float g, float b, ros::Publisher& marker_pub, bool add = true) {
   // Set our initial shape type to be a cube
@@ -34,9 +44,9 @@ void publish_marker(float x, float y, float z, float r, float g, float b, ros::P
      marker.pose.orientation.w = 1.0;
  
      // Set the scale of the marker -- 1x1x1 here means 1m on a side
-     marker.scale.x = 1.0;
-     marker.scale.y = 1.0;
-     marker.scale.z = 1.0;
+     marker.scale.x = 0.3;
+     marker.scale.y = 0.3;
+     marker.scale.z = 0.3;
  
      // Set the color -- be sure to set alpha to something non-zero!
      marker.color.r = r;
@@ -59,16 +69,35 @@ void publish_marker(float x, float y, float z, float r, float g, float b, ros::P
      marker_pub.publish(marker);
 } 
 
- int main( int argc, char** argv )
+void odomCallback(const nav_msgs::Odometry::ConstPtr& msg) {
+  float x_robot = msg->pose.pose.position.x;
+  float y_robot = msg->pose.pose.position.y;
+  float delta_x_pickup = abs(x_robot - x_pickup);
+  float delta_y_pickup = abs(y_robot - y_pickup);
+  if(delta_x_pickup < epsilon && delta_y_pickup < epsilon) {
+    ros::Duration(5, 0).sleep();
+    publish_marker(x_pickup, y_pickup, 0, 0.0f, 0.0f, 1.0f, marker_pub, false);
+    return;
+  }
+  float delta_x_deliver = abs(x_robot - x_deliver);
+  float delta_y_deliver = abs(y_robot - y_deliver);
+  if (delta_x_deliver < epsilon && delta_y_deliver < epsilon) {
+    ros::Duration(5, 0).sleep();
+    publish_marker(x_deliver, y_deliver, 0, 0.0f, 0.0f, 1.0f, marker_pub, true);
+    ros::Duration(10, 0).sleep();
+    publish_marker(x_pickup, y_pickup, 0, 0.0f, 0.0f, 1.0f, marker_pub, true);
+    return;    
+  }
+}
+ 
+int main( int argc, char** argv )
  {
    ros::init(argc, argv, "add_markers");
    ros::NodeHandle n;
-   ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
+   marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
+   ros::Subscriber sub = n.subscribe("odom", 10, odomCallback);
    
-   publish_marker(-4, -10, 0, 0.0f, 0.0f, 1.0f, marker_pub, true);
-   ros::Duration(5, 0).sleep();
-   publish_marker(-4, -10, 0, 0.0f, 0.0f, 1.0f, marker_pub, false);
-   ros::Duration(5, 0).sleep();
-   publish_marker(-10, 10, 0, 0.0f, 0.0f, 1.0f, marker_pub, true);
+   publish_marker(x_pickup, y_pickup, 0, 0.0f, 0.0f, 1.0f, marker_pub, true);
+   ros::spin();
    return 0;
  }

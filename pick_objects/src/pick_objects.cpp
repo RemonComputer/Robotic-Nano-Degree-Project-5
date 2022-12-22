@@ -57,12 +57,13 @@ int main(int argc, char** argv){
     ROS_INFO("Waiting for the move_base action server to come up");
   }
  // ros::Duration(2, 0).sleep();
- go_to_goal(-4, -10, 0, 1, "The Robot Reached the first location");
+ go_to_goal(-4, -10, 0, 1, "The Robot Reached the first pickup location");
  //ros::Duration(5, 0).sleep();
- go_to_goal(-10, 10, 0, 1, "The Robot Reached the second location");
- go_to_goal(-4, -10, 0, 1, "The Robot Reached the third location");
+ go_to_goal(-10, 10, 0, 1, "The Robot Reached the delivery location");
+ go_to_goal(-4, -10, 0, 1, "The Robot Reached the second pickup location");
  //ros::Duration(5, 0).sleep();
- go_to_goal(-10, 10, 0, 1, "The Robot Reached the fourth location");
+ go_to_goal(-10, 10, 0, 1, "The Robot Reached the second delivery location");
+ go_to_goal(-15, 5, 0, 1, "The Robot went to a parking position");
  
  //go_to_goal(4, 4, 0, 1, "The Robot Reached the second location"); 
  ros::Duration(20, 0).sleep();
