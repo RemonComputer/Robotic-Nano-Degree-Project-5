@@ -2,6 +2,10 @@
 
 ## Description
 - This is the Final Project of the Robotics nano degree.
+- It performs occupency grid mapping using slam_gmapping package.
+- You can save the resulted map using the map_server package.
+- It performs localization within the map using adaptive monte-carlo localization.
+- It plan a path and navigate to a goal using the move_base navigation package which contains a global and local path planners with many options.
 - It contains [test_slam.sh](my_robot/scripts/test_slam.sh) which would be used to run a SLAM algorithm to create a map of the environment.
 - It contains [test_navigation.sh](my_robot/scripts/test_navigation.sh) which you would use rviz to make the robot navigate to a certain point.
 - It contains [home_service.sh](my_robot/scripts/home_service.sh) which would make the robot perform 2 delivery cycles for a virtual object and then park itself.
