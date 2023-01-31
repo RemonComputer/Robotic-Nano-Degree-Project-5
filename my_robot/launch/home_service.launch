@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+
+  <!-- Environement variable for gazebo to find the Lidar Mesh -->
+  <env name="GAZEBO_MODEL_PATH" value="$(find my_robot)/meshes/"/>
+
+  <!-- Launch the world-->
+  <include file="$(find my_robot)/launch/world.launch"/>
+  <!-- Adaptive monte-carlo localization -->
+  <include file="$(find my_robot)/launch/amcl.launch"/>
+  <!-- markers node -->
+  <node name="add_markers" pkg="add_markers" type="add_markers" respawn="false" output="screen"/>
+  <!-- pick_objects node -->
+  <node name="pick_objects" pkg="pick_objects" type="pick_objects" respawn="false" output="screen"/>
+
+</launch>

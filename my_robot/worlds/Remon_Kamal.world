@@ -1347,7 +1347,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>/home/robond/workspace/catkin_ws/src/Robotic-Nano-Degree-Project-5/my_robot/meshes/hokuyo.dae</uri>
+              <uri>model://hokuyo.dae</uri>
             </mesh>
           </geometry>
           <material>

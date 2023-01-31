@@ -51,8 +51,9 @@ source devel/setup.bash
 
 ## Applying the slam algorithm and saving a map
 ```
-./src/Robotic-Nano-Degree-Project-5/my_robot/scripts/test_slam.sh
+roslaunch my_robot test_slam.launch
 # walk your robot to cover the whole environment, watch RVIZ to determine the covarage
+# You can walk your robot using: i, j, k, l buttons but the terminal window should be active
 # when your are done save the map in the maps folder from another terminal
 cd src/Robotic-Nano-Degree-Project-5/my_robot/maps/
 rosrun map_server map_saver -f map
@@ -61,12 +62,12 @@ cd -
 
 ## Testing the navigation
 ```
-./src/Robotic-Nano-Degree-Project-5/my_robot/scripts/test_navigation.sh
+roslaunch my_robot test_navigation.launch
 # use the 2DNav goal button and point to a goal, you will notice that the robot talks a walk to that goal
 ```
 
 ## Testing the home robot service delivery
 ```
-./src/Robotic-Nano-Degree-Project-5/my_robot/scripts/home_service.sh
+roslaunch my_robot home_service.launch
 # You will notice that the robot will take 2 delivery cycles of a virtual blue box then it parks itself to the final position
 ```
