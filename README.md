@@ -35,10 +35,9 @@ catkin_make
 sudo apt-get update
 cd ~/catkin_ws/src
 git clone https://github.com/ros-perception/slam_gmapping
-git clone https://github.com/ros-teleop/teleop_twist_keyboard
 cd ~/catkin_ws/
 source devel/setup.bash
-rosdep -i install gmapping
+rosdep -i install gmapping amcl move_base teleop_twist_keyboard
 catkin_make
 source devel/setup.bash
 # Cloning and building the project
