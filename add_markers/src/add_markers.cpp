@@ -98,6 +98,7 @@ void odomCallback(const nav_msgs::Odometry::ConstPtr& msg) {
   	robot_state = 2;
   } else if (robot_state == 2 && at_delivery_loc && robot_stopped) {
   	robot_state = 3;
+  	achieved_delivery_cycles++;
   } else if (robot_state == 3 && !at_delivery_loc && achieved_delivery_cycles < n_delivery_cycles) {
   	robot_state = 0;
   } else if(robot_state == 3 && !at_delivery_loc) {
