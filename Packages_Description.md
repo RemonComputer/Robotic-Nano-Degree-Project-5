@@ -23,7 +23,7 @@ The following are the used packages within the project:
 Used to visualize the robot during its motion and the topics while it evolves in realtime.
 
 ## teleop_twist_keyboard
-Used to steer and move the robot in the test_slam.sh script.
+Used to steer and move the robot in the test_slam.launch launch file.
 
 ## xacro
 Used to preprocess the custom robot urdf and its output is exported to Gazebo for simulation and for RVIZ for visualization.
@@ -117,13 +117,13 @@ A Gazebo plugin used to provide an interface from the custom robot lidar and ROS
     - global_costmap_params.yaml: A global costmap parameters used by the move_base package of the navigation stack.
   - scripts: A directory for various scripts used during the project phase.
     - launch.sh: A script to test running gazebo and sourcing ROS within the script in separate xterm windows.
-    - test_slam.sh:  A script that is used  to launch and map the environment.
+    - test_slam.launch:  A launch file that is used  to launch and map the environment.
       - It launches the world, RVIZ, mapping node and the teleop node each in separeate xterm windows.
-    - test_navigation.sh: A script that is used to launch RVIZ and the world, you can use the 2D Nav goal button to choose a location for the robot navigation.
+    - test_navigation.launch: A launch file that is used to launch RVIZ and the world, you can use the 2D Nav goal button to choose a location for the robot navigation.
       - It launches the world, RVIZ, the localization node, the map server and the navigation stack.
     - pick_objects.sh: Same as the previous script but it adds pick_objects node that instructs the robot to do the pickup cycles.
     - add_markers.sh: Same as test_navigation.sh but it adds add_markers node which add nodes at the pickup location and hides them if the robot approached it.
-    - home_service.sh: The final script of the project that makes the final robot delivery cycles and parks the robot at the end.
+    - home_service.launch: The final launch file of the project that makes the final robot delivery cycles and parks the robot at the end.
   - launch: contains various launch files that is used to launch nodes across the project.
     - teleop.launch: Used to launch the keyboard teleop node that is used to steer and drive the robot.
     - robot_description.launch:
