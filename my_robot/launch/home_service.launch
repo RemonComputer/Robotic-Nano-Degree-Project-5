@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+ 
+  <!-- Initial Robot pose -->
+  <arg name="x_initial" default="-3.31"/>
+  <arg name="y_initial" default="-2.76"/>
+  <arg name="z_initial" default="0.1"/>
+  <arg name="roll_initial" default="0"/>
+  <arg name="pitch_initial" default="0"/>
+  <arg name="yaw_initial" default="-1.5707"/>
+  <!-- package pickup and delivery coordinates --> 
+  <arg name="x_pickup" default="-4.0"/>
+  <arg name="y_pickup" default="-10.0"/>
+  <arg name="x_delivery" default="-10.0"/>
+  <arg name="y_delivery" default="10.0"/>
+  <!-- Final parking position of the Robot -->
+  <arg name="x_parking" default="-15.0"/>
+  <arg name="y_parking" default="5.0"/>
+  
+  <!-- Parameters to pass to the nodes -->
+  <param name="x_pickup" type="double" value="$(arg x_pickup)" />
+  <param name="y_pickup" type="double" value="$(arg y_pickup)" />
+  <param name="x_delivery" type="double" value="$(arg x_delivery)" />
+  <param name="y_delivery" type="double" value="$(arg y_delivery)" />
+  <param name="x_parking" type="double" value="$(arg x_parking)" />
+  <param name="y_parking" type="double" value="$(arg y_parking)" />
+  
+
+  <!-- Environement variable for gazebo to find the Lidar Mesh -->
+  <env name="GAZEBO_MODEL_PATH" value="$(find my_robot)/meshes/"/>
+
+  <!-- Launch the world-->
+  <include file="$(find my_robot)/launch/world.launch">
+  	<arg name="x" value="$(arg x_initial)"/>
+  	<arg name="y" value="$(arg y_initial)"/>
+  	<arg name="z" value="$(arg z_initial)"/>
+  	<arg name="roll" value="$(arg roll_initial)"/>
+  	<arg name="pitch" value="$(arg pitch_initial)"/>
+  	<arg name="yaw" value="$(arg yaw_initial)"/>
+  </include>
+  <!-- Adaptive monte-carlo localization -->
+  <include file="$(find my_robot)/launch/amcl.launch">
+  	<arg name="x" value="$(arg x_initial)"/>
+  	<arg name="y" value="$(arg y_initial)"/>
+  	<arg name="yaw" value="$(arg yaw_initial)"/>
+  </include>
+  <!-- markers node -->
+  <node name="add_markers" pkg="add_markers" type="add_markers" respawn="false" output="screen"/>
+  <!-- pick_objects node -->
+  <node name="pick_objects" pkg="pick_objects" type="pick_objects" respawn="false" output="screen"/>
+
+</launch>

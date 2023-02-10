@@ -4,12 +4,24 @@
 
 ros::Publisher marker_pub;
 
-float x_pickup = -4;
-float y_pickup = -10;
-float x_deliver = -10;
-float y_deliver = 10;
+float x_pickup;
+float y_pickup;
+float x_deliver;
+float y_deliver;
 
 float epsilon = 0.1;
+
+int robot_state = 0;
+
+// This is like a state-machine
+// 0 -> robot is going to pick the delivery
+// 1 -> robot is picking the delivery
+// 2 -> robot is going to the second delivery location
+// 3 -> robot is unloading the delivery
+// 4 -> robot is going to park
+ 
+int n_delivery_cycles = 2;
+int achieved_delivery_cycles = 0;
 
 void publish_marker(float x, float y, float z, float r, float g, float b, ros::Publisher& marker_pub, bool add = true) {
   // Set our initial shape type to be a cube
@@ -17,7 +29,7 @@ void publish_marker(float x, float y, float z, float r, float g, float b, ros::P
 
      visualization_msgs::Marker marker;
      // Set the frame ID and timestamp.  See the TF tutorials for information on these.
-     marker.header.frame_id = "/map";
+     marker.header.frame_id = "map";
      marker.header.stamp = ros::Time::now();
  
      // Set the namespace and id for this marker.  This serves to create a unique ID
@@ -74,22 +86,46 @@ void odomCallback(const nav_msgs::Odometry::ConstPtr& msg) {
   float y_robot = msg->pose.pose.position.y;
   float delta_x_pickup = abs(x_robot - x_pickup);
   float delta_y_pickup = abs(y_robot - y_pickup);
-  if(delta_x_pickup < epsilon && delta_y_pickup < epsilon) {
-    ros::Duration(5, 0).sleep();
-    // Hide the marker when the robot reach the pickup location
-    publish_marker(x_pickup, y_pickup, 0, 0.0f, 0.0f, 1.0f, marker_pub, false);
-    return;
-  }
+  bool at_pickup_loc = delta_x_pickup < epsilon && delta_y_pickup < epsilon;
   float delta_x_deliver = abs(x_robot - x_deliver);
   float delta_y_deliver = abs(y_robot - y_deliver);
-  if (delta_x_deliver < epsilon && delta_y_deliver < epsilon) {
-    ros::Duration(5, 0).sleep();
-    // Show the marker at the delivery location when the robot reached it
-    publish_marker(x_deliver, y_deliver, 0, 0.0f, 0.0f, 1.0f, marker_pub, true);
-    ros::Duration(15, 0).sleep();
-    // Show the marker again at the pickup for a next pickup loaction
-    publish_marker(x_pickup, y_pickup, 0, 0.0f, 0.0f, 1.0f, marker_pub, true);
-    return;    
+  bool at_delivery_loc = (delta_x_deliver < epsilon) && (delta_y_deliver < epsilon);
+  bool robot_stopped = (abs(msg->twist.twist.linear.x) < epsilon) && (abs(msg->twist.twist.angular.z) < epsilon);
+  // State machine Transition logic 
+  if (robot_state == 0 && at_pickup_loc && robot_stopped) {
+  	robot_state = 1;
+  } else if (robot_state == 1 && !at_pickup_loc) {
+  	robot_state = 2;
+  } else if (robot_state == 2 && at_delivery_loc && robot_stopped) {
+  	robot_state = 3;
+  	achieved_delivery_cycles++;
+  } else if (robot_state == 3 && !at_delivery_loc && achieved_delivery_cycles < n_delivery_cycles) {
+  	robot_state = 0;
+  } else if(robot_state == 3 && !at_delivery_loc) {
+   	robot_state = 4;
+  }
+  // Acting on the Robot state
+  switch (robot_state) {
+  case 0:
+  	ROS_INFO("Showing marker at pickup location");
+  	publish_marker(x_pickup, y_pickup, 0, 0.0f, 0.0f, 1.0f, marker_pub, true);
+  break;
+  case 1:
+  	ROS_INFO("Robot is picking the package");
+  	publish_marker(x_pickup, y_pickup, 0, 0.0f, 0.0f, 1.0f, marker_pub, true);
+  break;
+  case 2:
+  	ROS_INFO("Robot is delivering the package");
+  	publish_marker(0, 0, 0, 0.0f, 0.0f, 1.0f, marker_pub, false);
+  break;
+  case 3:
+  	ROS_INFO("Robot is unloading the package");
+  	publish_marker(x_deliver, y_deliver, 0, 0.0f, 0.0f, 1.0f, marker_pub, true);
+  break;
+  case 4:
+  	ROS_INFO("Robot is going to park");
+  	publish_marker(x_pickup, y_pickup, 0, 0.0f, 0.0f, 1.0f, marker_pub, false);
+  break;
   }
 }
  
@@ -97,11 +133,14 @@ int main( int argc, char** argv )
  {
    ros::init(argc, argv, "add_markers");
    ros::NodeHandle n;
+   if (!n.getParam("x_pickup", x_pickup) || !n.getParam("y_pickup", y_pickup) || !n.getParam("x_delivery", x_deliver) || !n.getParam("y_delivery", y_deliver)){
+   	ROS_ERROR("Failed to get parameters - add_markers");
+   }
    marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
    ros::Subscriber sub = n.subscribe("odom", 10, odomCallback);
    
    // Add the marker to thhe pickup location
-   publish_marker(x_pickup, y_pickup, 0, 0.0f, 0.0f, 1.0f, marker_pub, true);
+   // publish_marker(x_pickup, y_pickup, 0, 0.0f, 0.0f, 1.0f, marker_pub, true);
    ros::spin();
    return 0;
  }
