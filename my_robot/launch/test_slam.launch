@@ -5,9 +5,24 @@
 
   <!-- Environement variable for gazebo to find the Lidar Mesh -->
   <env name="GAZEBO_MODEL_PATH" value="$(find my_robot)/meshes/"/>
+  <!-- Initial Robot pose -->
+  <arg name="x_initial" default="-3.31"/>
+  <arg name="y_initial" default="-2.76"/>
+  <arg name="z_initial" default="0.1"/>
+  <arg name="roll_initial" default="0"/>
+  <arg name="pitch_initial" default="0"/>
+  <arg name="yaw_initial" default="-1.5707"/>
+  
 
   <!-- Launch the world-->
-  <include file="$(find my_robot)/launch/world.launch"/>
+  <include file="$(find my_robot)/launch/world.launch">
+  	<arg name="x" value="$(arg x_initial)"/>
+  	<arg name="y" value="$(arg y_initial)"/>
+  	<arg name="z" value="$(arg z_initial)"/>
+  	<arg name="roll" value="$(arg roll_initial)"/>
+  	<arg name="pitch" value="$(arg pitch_initial)"/>
+  	<arg name="yaw" value="$(arg yaw_initial)"/>
+  </include>
   <!-- Adaptive monte-carlo localization -->
   <include file="$(find my_robot)/launch/gmapping_demo.launch"/>
   <!-- Teleop keyboard -->
