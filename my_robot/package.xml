@@ -35,11 +35,16 @@
   <!--   <build_depend>message_generation</build_depend> -->
   <!-- Use buildtool_depend for build tool packages: -->
   <!--   <buildtool_depend>catkin</buildtool_depend> -->
-  <!-- Use run_depend for packages you need at runtime: -->
   <!-- <run_depend></run_depend> -->
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
+  <!-- Use run_depend for packages you need at runtime: -->
+  <run_depend>amcl</run_depend>
+  <run_depend>move_base</run_depend>
+  <run_depend>gmapping</run_depend>
+  <run_depend>slam_gmapping</run_depend>
+  <run_depend>teleop_twist_keyboard</run_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->
