@@ -25,27 +25,21 @@
 
 ## Building the project
 ```
+# Updating apt
+sudo apt-get update
 # Creating the ROS Workspace
 mkdir -p ~/catkin_ws/src
 cd ~/catkin_ws/src
-catkin_init_workspace
-cd ..
-catkin_make
-# Cloning and building the prerequisites
-sudo apt-get update
-cd ~/catkin_ws/src
-git clone https://github.com/ros-perception/slam_gmapping
-cd ~/catkin_ws/
-source devel/setup.bash
-rosdep -i install gmapping amcl move_base teleop_twist_keyboard
-catkin_make
-source devel/setup.bash
 # Cloning and building the project
-cd src
 git clone https://github.com/RemonComputer/Robotic-Nano-Degree-Project-5
 cd ..
+# Install the packages dependencies
+rosdep update
+rosdep install --from-paths src --ignore-src -r -y
+# Building the project
 catkin_make
-source devel/setup.bash 
+# Sourcing the workspace
+source devel/setup.bash
 ```
 
 ## Applying the slam algorithm and saving a map
