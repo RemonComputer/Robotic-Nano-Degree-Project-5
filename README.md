@@ -56,7 +56,7 @@ cd -
 ## Testing the navigation
 ```
 roslaunch my_robot test_navigation.launch
-# use the 2DNav goal button and point to a goal, you will notice that the robot talks a walk to that goal
+# use the 2DNav goal button and click on the goal location and drag, you will see a big arrow and after releasing you will notice that the robot walks to the goal position.
 ```
 
 ## Testing the home robot service delivery
