@@ -7,9 +7,9 @@
 - It performs localization within the map using adaptive monte-carlo localization.
 - It plan a path and navigate to a goal using the move_base navigation package which contains a global and local path planners with many options.
 - For more info about the technical parts of the project please review [Packages_Description.md](./Packages_Description.md)
-- It contains [test_slam.sh](my_robot/scripts/test_slam.sh) which would be used to run a SLAM algorithm to create a map of the environment.
-- It contains [test_navigation.sh](my_robot/scripts/test_navigation.sh) which you would use rviz to make the robot navigate to a certain point.
-- It contains [home_service.sh](my_robot/scripts/home_service.sh) which would make the robot perform 2 delivery cycles for a virtual object and then park itself.
+- It contains [test_slam.launch](my_robot/launch/test_slam.launch) which would be used to run a SLAM algorithm to create a map of the environment.
+- It contains [test_navigation.launch](my_robot/launch/test_navigation.launch) which you would use rviz to make the robot navigate to a certain point.
+- It contains [home_service.launch](my_robot/scripts/home_service.launch) which would make the robot to  perform 2 delivery cycles for a virtual object and then park itself.
 
 
 ## Demos
