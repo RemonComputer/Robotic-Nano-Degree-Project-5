@@ -4,10 +4,10 @@
 
 ros::Publisher marker_pub;
 
-float x_pickup = -4;
-float y_pickup = -10;
-float x_deliver = -10;
-float y_deliver = 10;
+float x_pickup;
+float y_pickup;
+float x_deliver;
+float y_deliver;
 
 float epsilon = 0.1;
 
@@ -133,6 +133,9 @@ int main( int argc, char** argv )
  {
    ros::init(argc, argv, "add_markers");
    ros::NodeHandle n;
+   if (!n.getParam("x_pickup", x_pickup) || !n.getParam("y_pickup", y_pickup) || !n.getParam("x_delivery", x_deliver) || !n.getParam("y_delivery", y_deliver)){
+   	ROS_ERROR("Failed to get parameters - add_markers");
+   }
    marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
    ros::Subscriber sub = n.subscribe("odom", 10, odomCallback);
    
