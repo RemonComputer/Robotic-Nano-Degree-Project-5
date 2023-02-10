@@ -43,6 +43,17 @@
   <run_depend>amcl</run_depend>
   <run_depend>move_base</run_depend>
   <run_depend>gmapping</run_depend>
+  <run_depend>map_server</run_depend>
+  <run_depend>xacro</run_depend>
+  <run_depend>gazebo</run_depend>
+  <run_depend>gazebo_ros</run_depend>
+  <run_depend>gazebo_plugins</run_depend>
+  <run_depend>joint_state_publisher</run_depend>
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>libgazebo_ros_openni_kinect</run_depend>
+  <run_depend>libgazebo_ros_skid_steer_drive</run_depend>
+  <run_depend>libgazebo_ros_laser</run_depend>
+  <run_depend>rviz</run_depend>
   <run_depend>slam_gmapping</run_depend>
   <run_depend>teleop_twist_keyboard</run_depend>
 
